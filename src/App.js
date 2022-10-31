@@ -18,6 +18,7 @@ function App() {
   return (
     <>
       {/* <Navbar /> */}
+      
       <div>
         <Routes>
           <Route exact path='/' element={<Home />} />

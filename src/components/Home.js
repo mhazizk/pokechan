@@ -3,6 +3,9 @@ import logo from '../assets/pokechan_logo.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import PokemonDetailsPage from './PokemonDetails'
+
+
 
 const Home = () => {
 
@@ -12,12 +15,12 @@ const Home = () => {
             searchQuery: '',
             placeholder: 'Search pokemon ..',
             selected: '',
-            urlSelected: ''
+            urlSelected: null
         },
         database: {
             nameList: null,
             filteredName: null,
-            details: ''
+            pokemonDetails: null
         },
         api: {
             request: '',
@@ -47,6 +50,27 @@ const Home = () => {
         getPokemonList(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154`)
     }, [])
 
+
+    // fetch pokemon details
+    const getPokemonDetails = async () => {
+        console.log(data.search.urlSelected)
+        try {
+            const res = await axios.get(data.search.urlSelected ? data.search.urlSelected : null)
+            setData({ ...data, 'database': { ...data.database, 'pokemonDetails': res.data } })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    // useEffect to fetch pokemon details
+    useEffect(() => {
+
+        getPokemonDetails()
+
+        console.log(data)
+    }, [data.search.urlSelected])
+
     // useEffect to refresh the state
     useEffect(() => {
         // refresh the state
@@ -63,57 +87,72 @@ const Home = () => {
     useEffect(() => {
         // refresh
         console.log(data)
-    }, [data.database.nameList, data.database.filteredName, data.search.selected, data.search.urlSelected])
+    }, [data.database.nameList, data.database.filteredName, data.search.selected, data.database.pokemonDetails])
 
 
     const SearchResultRender = () => {
         const isSearchQuery = data.search.searchQuery
         return (
-            <div className='list_container_column'>
+            <div className='list_container_column' style={{ 'position': 'absolute', 'top': '0', 'zIndex': '2000' }}>
                 {isSearchQuery ? data.database?.filteredName?.map((pokemon) => {
                     return (
-                        <Link
-                            to={`/${pokemon.name}`}
+                        <span
+                            to={`/pokemon/${pokemon.name}`}
                             id='searchResults'
                             key={pokemon.name}
                             className='list_item_column'
                             data-name={pokemon.name}
                             data-url={pokemon.url}
-                            onClick={(e) => setData({ ...data, 'search': { ...data.search, 'selected': e.currentTarget.getAttribute('data-name'), 'urlSelected': e.currentTarget.getAttribute('data-url') } })} >
-                            <p className='font_medium' style={{ 'padding': '4px 8px' }}>
-                                {pokemon.name}
+                            onClick={(e) => setData({ ...data, 'search': { ...data.search, 'searchQuery': '', 'selected': e.currentTarget.getAttribute('data-name'), 'urlSelected': e.currentTarget.getAttribute('data-url') } })} >
+                            <p className='font_body' style={{ 'padding': '4px 8px' }}>
+                                {pokemon.name[0].toUpperCase() + pokemon.name.substring(1)}
                             </p>
-                        </Link>
+                        </span>
                     )
-                }) : null}
+                }) : null
+                }
             </div>
 
         )
     }
 
     return (
-        <div className='root_column' style={{ 'height': '100vh' }}>
-            <div className='root_column' style={{ 'height': 'auto' }}>
-                <div className='root_column'>
-                    <img src={logo} className='logo' />
-                    Simple Pokemon Database
+        <>
+            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1001' }} />
+            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1' }} />
+            <p className='font_background' style={{ 'display': 'flex', 'position': 'fixed', 'bottom': '0', 'zIndex': '2' }}>
+                {data.search?.selected?.toUpperCase()}
+            </p>
+
+
+            <div className='root_column' style={{'background-color': '#ffcc00', 'height': `${data.search.selected ? '100%' : '100vh'}` }}>
+                <div className='root_column' style={{ 'padding': '16px', 'background-color': '#ffcc00', 'height': 'auto', 'position': 'sticky', 'top': '0', 'zIndex': '1000' }}>
+                    <div className='root_column'>
+                        <img src={logo} className='logo' />
+                        Simple Pokemon Database
+                    </div>
+                    <br />
+                    <br />
+                    <div className='root_column' style={{ 'height': 'auto', 'width': '256px' }}>
+                        <input
+                            type='search'
+                            value={data.search.searchQuery}
+                            onChange={(e) => { setData({ ...data, 'search': { ...data.search, 'searchQuery': e.target.value } }) }}
+                            placeholder={data.search?.placeholder} />
+                        <div className='root_column' style={{ 'height': 'auto', 'width': '100%' }}>
+                            <SearchResultRender />
+                        </div>
+                    </div>
+                    <br />
                 </div>
-                <br />
-                <br />
-                <div className='root_column' style={{ 'height': 'auto', 'width': '256px' }}>
-                    <input
-                        type='search'
-                        onChange={(e) => { setData({ ...data, 'search': { ...data.search, 'searchQuery': e.target.value } }) }}
-                        placeholder={data.search?.placeholder} />
-                    <SearchResultRender />
-                </div>
-                <br />
+                {/* <br />
                 or
                 <br />
                 <br />
-                <span className='span_button'>Show all pokemon list </span>
+                <span className='span_button'>Show all pokemon list </span> */}
+                <PokemonDetailsPage name={data.search.selected} details={data.database.pokemonDetails} />
             </div>
-        </div>
+        </>
     )
 }
 
