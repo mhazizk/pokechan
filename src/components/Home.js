@@ -118,17 +118,17 @@ const Home = () => {
 
     return (
         <>
-            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1001' }} />
-            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1' }} />
+            {/* <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1001' }} /> */}
+            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '500' }} />
             <p className='font_background' style={{ 'display': 'flex', 'position': 'fixed', 'bottom': '0', 'zIndex': '2' }}>
                 {data.search?.selected?.toUpperCase()}
             </p>
 
 
             <div className='root_column' style={{'background-color': '#ffcc00', 'height': `${data.search.selected ? '100%' : '100vh'}` }}>
-                <div className='root_column' style={{ 'padding': '16px', 'background-color': '#ffcc00', 'height': 'auto', 'position': 'sticky', 'top': '0', 'zIndex': '1000' }}>
-                    <div className='root_column'>
-                        <img src={logo} className='logo' />
+                <div className='root_column' style={{ 'padding': '16px', 'background-color': 'transparent', 'height': 'auto', 'position': 'sticky', 'top': '0', 'zIndex': '1000' }}>
+                    <div className='root_column' style={{'zIndex':''}}>
+                        <img src={logo} className='logo' style={{'zIndex':''}} />
                         Simple Pokemon Database
                     </div>
                     <br />
