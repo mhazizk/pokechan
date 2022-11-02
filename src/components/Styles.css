@@ -192,6 +192,21 @@
     scale: 1.2;
 }
 
+.span_tag {
+    position: relative;
+    display: flex;
+
+    margin: 0;
+    padding: 4px 8px;
+    background-color: #000;
+    color: #ffcc01;
+
+    outline: 0;
+    transition: all 0.15s ease-in-out;
+
+}
+
+
 
 .span_button {
     position: relative;
