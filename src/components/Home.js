@@ -2,9 +2,7 @@ import './Styles.css'
 import logo from '../assets/pokechan_logo.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
 import PokemonDetailsPage from './PokemonDetails'
-
 
 
 const Home = () => {
@@ -50,26 +48,27 @@ const Home = () => {
         getPokemonList(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154`)
     }, [])
 
-
     // fetch pokemon details
     const getPokemonDetails = async () => {
-        console.log(data.search.urlSelected)
+        console.log(data.search?.urlSelected)
         try {
-            const res = await axios.get(data.search.urlSelected ? data.search.urlSelected : null)
+            const res = await axios.get(data.search?.urlSelected ? data.search.urlSelected : null)
             setData({ ...data, 'database': { ...data.database, 'pokemonDetails': res.data } })
         } catch (error) {
             console.log(error)
         }
     }
 
-
     // useEffect to fetch pokemon details
     useEffect(() => {
 
-        getPokemonDetails()
+        if (data.search?.urlSelected) {
+            getPokemonDetails()
+        }
 
         console.log(data)
     }, [data.search.urlSelected])
+
 
     // useEffect to refresh the state
     useEffect(() => {
@@ -116,19 +115,20 @@ const Home = () => {
         )
     }
 
+
     return (
         <>
             {/* <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '1001' }} /> */}
-            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '500' }} />
+            <span className='red_circle' style={{ 'display': 'flex', 'position': 'fixed', 'top': '-500px', 'left': '-500px', 'zIndex': '5' }} />
             <p className='font_background' style={{ 'display': 'flex', 'position': 'fixed', 'bottom': '0', 'zIndex': '2' }}>
                 {data.search?.selected?.toUpperCase()}
             </p>
 
 
-            <div className='root_column' style={{'background-color': '#ffcc00', 'height': `${data.search.selected ? '100%' : '100vh'}` }}>
-                <div className='root_column' style={{ 'padding': '16px', 'background-color': 'transparent', 'height': 'auto', 'position': 'sticky', 'top': '0', 'zIndex': '1000' }}>
-                    <div className='root_column' style={{'zIndex':''}}>
-                        <img src={logo} className='logo' style={{'zIndex':''}} />
+            <div className='root_column' style={{ 'backgroundColor': '#ffcc00', 'height': `${data.search.selected ? '100%' : '100vh'}` }}>
+                <div className='root_column' style={{ 'overflow':'visible','padding': '16px', 'backgroundColor': '#ffcc00', 'height': 'auto', 'position': 'sticky', 'top': '0', 'zIndex': '1000' }}>
+                    <div className='root_column' style={{ 'zIndex': '' }}>
+                        <img src={logo} className='logo' style={{ 'zIndex': '' }} />
                         Simple Pokemon Database
                     </div>
                     <br />
@@ -154,6 +154,7 @@ const Home = () => {
             </div>
         </>
     )
+
 }
 
 export default Home

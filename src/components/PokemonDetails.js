@@ -1,12 +1,16 @@
 import './Styles.css'
 import pokeball from '../assets/pokeball.png'
+import heightIcon from '../assets/height.png'
+import weightIcon from '../assets/weight.png'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import LoadingScreen from './Loading'
 
-const PokemonDetailsPage = (props) => {
 
+const PokemonDetails = (props) => {
+
+    // Local State of this component
     const [localState, setLocalState] = useState({
+        pokemonName: '',
         artworkURL: '',
         moves:
         {
@@ -49,245 +53,9 @@ const PokemonDetailsPage = (props) => {
     })
 
 
-    // Fetch evolution chain details
-    const getEvolDesc = async () => {
-        try {
-            const res = await axios.get(localState.species?.speciesDetails.evolution_chain.url)
-            setLocalState({ ...localState, 'evolution': { ...localState.evolution, 'evolutionDetails': res.data } })
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-    // Fetch Evolution Artwork from Local State of Evol URL
-    const getEvolArtworkURL = async () => {
-        localState.evolution?.evolutionSelected?.evolInfo?.forEach(async (object) => {
-            try {
-                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${object.evolName}`)
-                console.log(res?.data?.sprites?.other['official-artwork']?.front_default)
-                object.evolArtworkURL = res?.data?.sprites?.other['official-artwork']?.front_default
-                setLocalState({ ...localState, 'evolution': { ...localState.evolution, 'evolutionSelected': { ...localState.evolution.evolutionSelected, 'isEvolInfoFetched': 1 } } })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-
-
-        // const listPromise = { 'key': [], 'promise': [] }
-        // for (let i = 0; i < localState.evolution?.evolutionSelected?.evolInfo.length; i++) {
-        //     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${localState.evolution?.evolutionSelected?.evolInfo[i].evolURL}`)
-        //     listPromise.key.push(i)
-        //     listPromise.promise.push(res.data?.sprites?.other['official-artwork']?.front_default)
-        //     console.log(res)
-        // }
-
-        // const listPromise = { 'key': [], 'promise': [] }
-        // const listResult = { 'key': [], 'promise': [] }
-        // const listResultValue = { 'key': [], 'promise': [] }
-
-
-        //                 localState.evolution?.evolutionSelected?.evolInfo?.find(await (findObjectName) => {
-        //     findObjectName.evolName == object.evolName
-        //     return res?.data?.sprites?.other['official-artwork']?.front_default
-        // })
-
-
-        // setLocalState({
-        //     ...localState,
-        //     'evolution': {
-        //         ...localState.evolution,
-        //         'evolutionSelected': {
-        //             ...localState.evolution.evolutionSelected,
-        //             'evolInfo': {
-        //                 ...localState.evolution.evolutionSelected.evolInfo,
-        //                 'evolArtworkURL': res?.data?.sprites?.other['official-artwork']?.front_default
-        //             }
-        //         }
-        //     }
-        // })
-
-        // listPromise.key.push(object.evolName)
-        // listPromise.promise.push(await res?.data?.sprites?.other['official-artwork']?.front_default)
-        // console.log(res)
-
-        // Wait for settled
-        // try {
-        //     listResult.key.push(object.evolName)
-        //     listResult.promise.push(await Promise.allSettled(listPromise.promise))
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-        // Cek hasil result
-
-        // const artwork = await res.data?.sprites?.other['official-artwork']?.front_default
-        // console.log(artwork)
-        // console.log(listPromise)
-        // console.log(listResult)
-
-        // Jalankan listPromise secara paralel
-        // let listResult = []
-        // try {
-        //     listResult = await Promise.allSettled(listPromise.promise)
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-        // Cek hasil listResult
-        // const listResultValue = []
-        // listResult.forEach((hasil) => {
-        //     console.log(hasil);
-        //     if (hasil.status === 'fulfilled') {
-        //         listResultValue.push(hasil.value)
-        //     }
-        // }
-        // )
-        // console.log(listResult)
-        // console.log(listResultValue)
-
-        // for (let i = 0; i < localState.evolution?.evolutionSelected?.evolInfo.length; i++) {
-        //     localState.evolution?.evolutionSelected?.evolInfo?.find((object) => {
-        //         object.evolName == 
-
-        //     })
-        //     setLocalState({
-        //         ...localState,
-        //         'evolution': {
-        //             ...localState.evolution,
-        //             'evolutionSelected': {
-        //                 ...localState.evolution.evolutionSelected,
-        //                 'evolInfo':
-        //             }
-        //         }
-        //     })
-        // }
-
-    }
-
-
-    // Fetch Move Description Text
-    const getMoveDesc = async () => {
-        try {
-            if (localState.moves?.moveURL && localState.moves?.moveSelectedName) {
-                const res = await axios.get(localState.moves?.moveURL)
-                setLocalState({ ...localState, 'moves': { ...localState.moves, 'moveDetails': res.data } })
-                console.log(res)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    // Fetch Ability Description Text
-    const getAbilityDesc = async () => {
-        try {
-            if (localState.abilities?.abilityURL && localState.abilities?.abilitySelectedName) {
-                const res = await axios.get(localState.abilities?.abilityURL)
-                setLocalState({ ...localState, 'abilities': { ...localState.abilities, 'abilityDetails': res.data } })
-                console.log(res)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    // Fetch Species Description Text
-    const getSpeciesDesc = async () => {
-        try {
-            if (props.name) {
-                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${props.name}`)
-                setLocalState({ ...localState, 'species': { ...localState.species, 'speciesDetails': res.data } })
-                console.log(res)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-    // Find Pokemon Evolution Name
-    const findEvol = () => {
-
-        const evolInfo = []
-        // const evolInfo = [{
-        //     'evolName': null,
-        //     'evolURL': null
-        // }]
-        // const evolName = []
-        // const evolURL = []
-
-
-        // Get the lowest evolution name
-        const lowestEvolName = localState.evolution?.evolutionDetails?.chain?.species?.name
-        const lowestEvolURL = localState.evolution?.evolutionDetails?.chain?.species?.url
-
-        // evolName.push(lowestEvolName)
-        // evolURL.push(lowestEvolURL)
-
-        evolInfo.push({
-            'evolName': lowestEvolName,              // Push first name in first object
-            'evolURL': lowestEvolURL,                // Push first URL in first object
-            'evolArtworkURL': null                   // Make a slot for first artwork URL in first object
-        })
-
-
-        if (localState.evolution?.evolutionDetails) {
-            const findEvol = localState.evolution?.evolutionDetails?.chain?.evolves_to.filter((findName) => {
-                evolInfo.push({
-                    'evolName': findName?.species?.name,  // Push first name in second object
-                    'evolURL': findName?.species?.url,    // Push first URL in second object
-                    'evolArtworkURL': null                // Make a slot for second artwork URL in second object
-                })
-                // evolName.push(findName.species.name) // Push first name
-                // evolURL.push(findName.species.url) // Push first url
-
-                return (
-                    findName.evolves_to?.filter((findName) => {
-                        evolInfo.push({
-                            'evolName': findName?.species?.name,  // Push third name in third object
-                            'evolURL': findName?.species?.url,    // Push third URL in third object
-                            'evolArtworkURL': null                // Make a slot for third artwork URL in third object
-
-                        })
-                        // evolName.push(findName.species.name) // Push second name
-                        // evolURL.push(findName.species.url) // Push second url        
-                        return (
-                            findName.evolves_to?.filter((findName) => {
-                                evolInfo.push({
-                                    'evolName': findName?.species?.name,  // Push forth name in forth object
-                                    'evolURL': findName?.species?.url,    // Push forth URL in forth object
-                                    'evolArtworkURL': null                // Make a slot for forth artwork URL in forth object
-
-                                })
-                                // evolName.push(findName.species.name) // Push third name
-                                // evolURL.push(findName.species.url) // Push third url                
-                                return
-                            })
-
-                        )
-                    })
-                )
-            })
-
-            console.log(evolInfo)
-            setLocalState({
-                ...localState,
-                'evolution': {
-                    ...localState.evolution,
-                    'evolutionSelected': {
-                        ...localState.evolution.evolutionSelected,
-                        'evolInfo': evolInfo
-                    }
-                }
-            })
-            console.log(localState)
-
-        }
-
-    }
-
+    // ! useEffect Section start //
+    // !
+    // !
 
 
     // useEffect after updating Moves Slice End
@@ -299,15 +67,6 @@ const PokemonDetailsPage = (props) => {
 
     // useEffect to hide desc
     useEffect(() => {
-
-        // Hide all Move Desc
-        const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
-        selectAllMoveDesc.forEach((element) => element.style.display = 'none')
-
-        // Hide all Ability Desc
-        const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
-        selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
-
 
         // Fetch Pokemon Species Desc
         getSpeciesDesc()
@@ -351,18 +110,7 @@ const PokemonDetailsPage = (props) => {
                 }
             }
         })
-
-
-        // if (localState.moves.moveToggle && localState.abilities.abilityToggle) {
-        //     // Hide all Move Desc
-        //     const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
-        //     selectAllMoveDesc.forEach((element) => element.style.display = 'none')
-
-        //     // Hide all Ability Desc
-        //     const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
-        //     selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
-        // }
-
+        console.log(localState)
 
     }, [props.name])
 
@@ -370,47 +118,60 @@ const PokemonDetailsPage = (props) => {
     // useEffect to show specific ability desc
     useEffect(() => {
 
-        if (localState.abilities?.abilitySelectedName) {
+        switch (true) {
+            case (localState.abilities?.abilityToggle && localState.pokemonName == props.name && localState.abilities?.abilitySelectedDescription == `${localState.abilities.abilitySelectedName}_description`):
+                console.log('case 1 ability toggle on, name == description', localState)
 
-            // Clean the previous ability state
-            setLocalState({
-                ...localState, 'abilities': {
-                    ...localState.abilities,
-                    'abilityDetails': null
+                // Clean the previous move state
+                setLocalState({
+                    ...localState, 'abilities': {
+                        ...localState.abilities,
+                        'abilityDetails': null
+                    }
+                })
+
+                getAbilityDesc()
+
+                // Select all ability desc div and hide all
+                const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
+                selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
+
+                if (localState.abilities?.abilitySelectedName && localState.abilities?.abilitySelectedDescription == `${localState.abilities.abilitySelectedName}_description`) {
+                    // Select only chosen ability to be shown
+                    const displaySelectedAbilityOnly = document?.querySelector(`[data-ability-desc='${localState.abilities.abilitySelectedDescription}']`)
+                    displaySelectedAbilityOnly.style.display = 'flex'
+                    console.log('case 1 ability toggle on, name == description, show div', localState)
                 }
-            })
+                break;
 
-            if (!localState.abilities.abilityToggle && localState.abilities.abilitySelectedName) {
+            case !localState.abilities.abilityToggle && localState.pokemonName != props.name:
+                console.log('case special' + localState)
+                break;
 
-                // Select all ability desc div and hide all
-                const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
-                selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
-            }
+            case !localState.abilities.abilityToggle && !localState.abilities.abilitySelectedName:
+                // do nothing
+                console.log('case 2 ability')
+                break;
 
-            getAbilityDesc()
+            case !localState.abilities.abilityToggle && !localState.abilities.abilitySelectedName:
+                // do nothing
+                console.log('case 3 ability')
+                break;
 
-
-            if (localState.abilities.abilityToggle && localState.abilities.abilitySelectedName) {
-
-                // Select all ability desc div and hide all
-                const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
-                selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
-
-                // Select only chosen ability to be shown
-                const displaySelectedAbilityOnly = document.querySelector(`[data-ability-desc='${localState.abilities.abilitySelectedDescription}']`)
-                displaySelectedAbilityOnly.style.display = 'flex'
-            }
-
+            default:
+                break;
         }
+
     }, [localState.abilities.abilityURL, localState.abilities.abilitySelectedName, localState.abilities.abilitySelectedDescription])
+
 
 
     // useEffect to show specific move desc
     useEffect(() => {
 
-        const switchCase = () => {}
         switch (true) {
-            case localState.moves.moveToggle && localState.moves.moveSelectedName:
+            case (localState.moves?.moveToggle && localState.pokemonName == props.name && localState.moves?.moveSelectedDescription == `${localState.moves.moveSelectedName}_description`):
+                console.log('case 1 moves, toggle on, name == description')
 
                 // Clean the previous move state
                 setLocalState({
@@ -426,22 +187,27 @@ const PokemonDetailsPage = (props) => {
                 const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
                 selectAllMoveDesc.forEach((element) => element.style.display = 'none')
 
-                // Select only chosen move to be shown
-                const displaySelectedMoveOnly = document.querySelector(`[data-move-desc='${localState.moves.moveSelectedDescription}']`)
-                displaySelectedMoveOnly.style.display = 'flex'
+                if (localState.moves?.moveSelectedName && localState.moves?.moveSelectedDescription == `${localState.moves.moveSelectedName}_description`) {
+                    // Select only chosen move to be shown
+                    const displaySelectedMoveOnly = document.querySelector(`[data-move-desc='${localState.moves.moveSelectedDescription}']`)
+                    displaySelectedMoveOnly.style.display = 'flex'
+                    console.log('case 1 moves, toggle on, name == description, show div')
+                }
+                break;
 
-                console.log('case 1')
+            case !localState.moves.moveToggle && localState.pokemonName != props.name:
+                console.log('case special' + localState)
+                break;
 
+
+            case !localState.moves.moveToggle && !localState.moves.moveSelectedName:
+                // do nothing
+                console.log('case 2 moves')
                 break;
 
             case !localState.moves.moveToggle && !localState.moves.moveSelectedName:
                 // do nothing
-                console.log('case 2')
-                break;
-
-            case !localState.moves.moveToggle && !localState.moves.moveSelectedName:
-                // do nothing
-                console.log('case 3')
+                console.log('case 3 moves')
 
                 break;
 
@@ -449,99 +215,233 @@ const PokemonDetailsPage = (props) => {
                 break;
         }
 
-        // refresh the state
-        // if (localState.moves.moveToggle && localState.moves?.moveSelectedName) {
-
-        //     // Clean the previous move state
-        //     setLocalState({
-        //         ...localState, 'moves': {
-        //             ...localState.moves,
-        //             'moveDetails': null
-        //         }
-        //     })
-
-        // if (!localState.moves.moveToggle) {
-        //     // Select all move desc div and hide all
-        //     const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
-        //     selectAllMoveDesc.forEach((element) => element.style.display = 'none')
-        // }
-
-
-        // getMoveDesc()
-
-        // if (localState.moves.moveToggle) {
-
-        //     // Select only chosen move to be shown
-        //     const displaySelectedMoveOnly = document.querySelector(`[data-move-desc='${localState.moves.moveSelectedDescription}']`)
-        //     displaySelectedMoveOnly.style.display = 'flex'
-        // }
-
-        // if (localState.moves.moveToggle && localState.moves.moveSelectedName) {
-        //     // Select all move desc div and hide all
-        //     const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
-        //     selectAllMoveDesc.forEach((element) => element.style.display = 'none')
-
-        //     // Select only chosen move to be shown
-        //     const displaySelectedMoveOnly = document.querySelector(`[data-move-desc='${localState.moves.moveSelectedDescription}']`)
-        //     displaySelectedMoveOnly.style.display = 'flex'
-        // }
-
-        // if (!localState.moves.moveToggle && localState.moves.moveSelectedName) {
-
-        //     // Select all move desc div and hide all
-        //     const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
-        //     selectAllMoveDesc.forEach((element) => element.style.display = 'none')
-        // }
-
-
-
-        // }
-
     }, [localState.moves.moveURL, localState.moves.moveSelectedName])
 
 
     // useEffect Toggle
     useEffect(() => {
         // refresh
+
+        // Hide all Move Desc
+        const selectAllMoveDesc = document.querySelectorAll(`[data-move-desc]`)
+        selectAllMoveDesc.forEach((element) => element.style.display = 'none')
+
         console.log(localState)
-    }, [localState.moves.moveToggle, localState.abilities.abilityToggle])
+    }, [localState.moves.moveToggle])
 
 
-    // useEffect refresh
+    // useEffect Toggle
+    useEffect(() => {
+        // refresh
+
+        // Hide all Ability Desc
+        const selectAllAbilityDesc = document.querySelectorAll(`[data-ability-desc]`)
+        selectAllAbilityDesc.forEach((element) => element.style.display = 'none')
+
+        console.log(localState)
+    }, [localState.abilities.abilityToggle])
+
+
+    // useEffect activate function
     useEffect(() => {
         // refresh state
-        getEvolDesc()
+        if (localState.species?.speciesDetails?.evolution_chain.url) {
+            getEvolDesc()
+        }
     }, [localState.species?.speciesDetails])
 
-    // useEffect refresh
+
+    // useEffect sliceEnd
+    useEffect(() => {
+        // refresh
+    }, [localState.moves.sliceEnd, localState.abilities.sliceEnd])
+
+    // useEffect activate function
     useEffect(() => {
         // refresh state
         // console.log(localState)
         findEvol()
     }, [localState.evolution?.evolutionDetails])
 
-    // useEffect refresh
+
+    // useEffect activate function
     useEffect(() => {
         // refresh state
         // console.log(localState)
-
-        getEvolArtworkURL()
-
-        console.log(localState)
+        if (localState.evolution?.evolutionSelected?.evolInfo) {
+            getEvolArtworkURL()
+            console.log(localState)
+        }
     }, [localState.evolution?.evolutionSelected?.evolInfo])
 
-    // useEffect refresh
+
+    // useEffect refresh state
     useEffect(() => {
         // refresh
-    }, [localState.evolution?.evolutionSelected?.isEvolInfoFetched])
+    }, [localState.evolution?.evolutionSelected?.isEvolInfoFetched, localState.pokemonName])
 
 
-    // useEffect refresh
-    // useEffect(() => {
-    //     // refresh state
-    //     console.log(localState)
-    // }, [localState.evolution?.evolutionSelected.evolArtworkURL])
+    // !
+    // !
+    // ! End of useEffect section
 
+
+
+
+
+    // ! Fetching Section start //
+    // !
+    // !
+
+    // Fetch evolution chain details
+    const getEvolDesc = async () => {
+        try {
+            const res = await axios.get(localState.species?.speciesDetails.evolution_chain.url)
+            setLocalState({ ...localState, 'evolution': { ...localState.evolution, 'evolutionDetails': res.data } })
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    // Fetch Evolution Artwork from Local State of Evol URL
+    const getEvolArtworkURL = async () => {
+        localState.evolution?.evolutionSelected?.evolInfo?.forEach(async (object) => {
+            try {
+                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${object.evolName}`)
+                console.log(res?.data?.sprites?.other['official-artwork']?.front_default)
+                object.evolArtworkURL = res?.data?.sprites?.other['official-artwork']?.front_default
+                setLocalState({ ...localState, 'evolution': { ...localState.evolution, 'evolutionSelected': { ...localState.evolution.evolutionSelected, 'isEvolInfoFetched': 1 } } })
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    }
+
+
+    // Fetch Move Description Text
+    const getMoveDesc = async () => {
+        try {
+            if (localState.moves?.moveURL && localState.moves?.moveSelectedName) {
+                const res = await axios.get(localState.moves?.moveURL)
+                setLocalState({ ...localState, 'moves': { ...localState.moves, 'moveDetails': res.data } })
+                console.log(res)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    // Fetch Ability Description Text
+    const getAbilityDesc = async () => {
+        try {
+            if (localState.abilities?.abilityURL && localState.abilities?.abilitySelectedName) {
+                const res = await axios.get(localState.abilities?.abilityURL)
+                setLocalState({ ...localState, 'abilities': { ...localState.abilities, 'abilityDetails': res.data } })
+                console.log(res)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    // Fetch Species Description Text
+    const getSpeciesDesc = async () => {
+        try {
+            if (props.name) {
+                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${props.name}`)
+                setLocalState({ ...localState, 'species': { ...localState.species, 'speciesDetails': res.data } })
+                console.log(res)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // !
+    // !
+    // ! End of Fetching Section //
+
+
+    // ! Function Section start //
+    // !
+    // !
+
+    // Find Pokemon Evolution Name
+    const findEvol = () => {
+
+        const evolInfo = []
+
+        // Get the lowest evolution name
+        const lowestEvolName = localState.evolution?.evolutionDetails?.chain?.species?.name
+        const lowestEvolURL = localState.evolution?.evolutionDetails?.chain?.species?.url
+
+        evolInfo.push({
+            'evolName': lowestEvolName,              // Push first name in first object
+            'evolURL': lowestEvolURL,                // Push first URL in first object
+            'evolArtworkURL': null                   // Make a slot for first artwork URL in first object
+        })
+
+
+        if (localState.evolution?.evolutionDetails) {
+            const findEvol = localState.evolution?.evolutionDetails?.chain?.evolves_to.filter((findName) => {
+                evolInfo.push({
+                    'evolName': findName?.species?.name,  // Push first name in second object
+                    'evolURL': findName?.species?.url,    // Push first URL in second object
+                    'evolArtworkURL': null                // Make a slot for second artwork URL in second object
+                })
+
+                return (
+                    findName.evolves_to?.filter((findName) => {
+                        evolInfo.push({
+                            'evolName': findName?.species?.name,  // Push third name in third object
+                            'evolURL': findName?.species?.url,    // Push third URL in third object
+                            'evolArtworkURL': null                // Make a slot for third artwork URL in third object
+
+                        })
+                        return (
+                            findName.evolves_to?.filter((findName) => {
+                                evolInfo.push({
+                                    'evolName': findName?.species?.name,  // Push forth name in forth object
+                                    'evolURL': findName?.species?.url,    // Push forth URL in forth object
+                                    'evolArtworkURL': null                // Make a slot for forth artwork URL in forth object
+
+                                })
+                                return
+                            })
+
+                        )
+                    })
+                )
+            })
+
+            console.log(evolInfo)
+            setLocalState({
+                ...localState,
+                'evolution': {
+                    ...localState.evolution,
+                    'evolutionSelected': {
+                        ...localState.evolution.evolutionSelected,
+                        'evolInfo': evolInfo
+                    }
+                }
+            })
+            console.log(localState)
+
+        }
+
+    }
+
+    // !
+    // !
+    // ! End of Function Section //
+
+    // ! Variable Section start //
+    // !
+    // !
 
     // Filter Flavor Text by language EN
     const filterSpeciesFlavorTexEN = localState.species?.speciesDetails?.flavor_text_entries.filter((text) => { return text.language.name.includes('en') })
@@ -555,15 +455,23 @@ const PokemonDetailsPage = (props) => {
     const getSpritesBackDefault = props.details?.sprites?.back_default;
 
 
+    // ! 
+    // ! 
+    // ! End of Variable Section //
+
+
+    // ! Return Render Section start //
     return (
         <>
+            {/* // ! Root Div of Pokemon Details Component */}
+
             <div className='root_row' style={{ 'display': `${props.name ? 'flex' : 'none'}`, 'height': 'auto', 'width': '1024px', 'justifyContent': 'space-between', 'alignItems': 'flex-start' }}>
 
 
-                {/* Left Column */}
+                {/* //! Left Column Section of Pokemon Details Component */}
                 <div id='main_container' className='root_column' style={{ 'zIndex': '', 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
-                    {/* Pokemon Image Section */}
+                    {/* // * Pokemon Image Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'position': 'sticky', 'top': '0', 'zIndex': '1002', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Artwork Name */}
@@ -573,76 +481,127 @@ const PokemonDetailsPage = (props) => {
                     </div>
 
 
-                    {/* Pokemon Sprites Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    {/* // * Pokemon Sprites Section */}
+                    {/* <div id='section_cointainer' className='root_column' style={{ 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}> */}
 
-                        {/* Pokemon Sprites Name */}
-                        <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly', 'overflow': 'visible' }}>
+                    {/* Pokemon Sprites Name */}
+                    {/* <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly', 'overflow': 'visible' }}>
                             <img src={getSpritesFrontDefault ? getSpritesFrontDefault : null} className='artwork' style={{ 'display': `${getSpritesFrontDefault ? 'flex' : 'none'}`, 'width': '64px' }} alt={props.name} />
                             <img src={getSpritesBackDefault ? getSpritesBackDefault : null} className='artwork' style={{ 'display': `${getSpritesBackDefault ? 'flex' : 'none'}`, 'width': '64px' }} alt={props.name} />
                         </div>
-                    </div>
+                    </div> */}
 
-                    {/* Pokemon Physical Info */}
-                    <div id='section_cointainer' className='root_column' style={{ 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
-                        {/* Pokemon Physical Title */}
-                        <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
-                            <p className='font_head'>Physical Info</p>
-                        </div>
+                    {/* // * Pokemon Physical Info Section */}
+                    <div id='section_container' className='root_column' style={{ 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                        <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
 
-                        {/* Height Row */}
-                        < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
-
-                            {/* Pokemon Stats Name */}
-                            <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
-                                <img src={pokeball} className='icon' alt="" />
-                                <p className='font_body'>Height</p>
+                            {/* Pokemon Height */}
+                            <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap':'8px','alignItems': 'center' }}>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <img src={heightIcon} className='icon' alt="" />
+                                </div>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <p className='font_body' style={{'fontWeight':'bold'}}>Height</p>
+                                </div>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <p className='font_body'>{props.details?.height ? (props.details?.height / 10).toLocaleString() : '???' } m</p>
+                                </div>
                             </div>
 
-                            {/* Pokemon Base Stats */}
-                            <div className='root_column' style={{ 'height': 'auto', 'width': '50%' }}>
+                            {/* Pokemon Weight */}
+                            <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap':'8px','alignItems': 'center' }}>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <img src={weightIcon} className='icon' alt="" />
+                                </div>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <p className='font_body' style={{'fontWeight':'bold'}}>Weight</p>
+                                </div>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                    <p className='font_body'>{props.details?.weight ? (props.details?.weight / 10).toLocaleString() : '???' } kg</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* // * Pokemon Physical Info Section */}
+                        {/* <div id='section_cointainer' className='root_column' style={{ 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}> */}
+
+                        {/* Pokemon Physical Title */}
+                        {/* <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
+                            <p className='font_head'>Physical Info</p>
+                        </div> */}
+                        {/* Height Row */}
+                        {/* < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}> */}
+
+                        {/* Pokemon Stats Name */}
+                        {/* <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                <img src={pokeball} className='icon' alt="" />
+                                <p className='font_body'>Height</p>
+                            </div> */}
+
+                        {/* Pokemon Base Stats */}
+                        {/* <div className='root_column' style={{ 'height': 'auto', 'width': '50%' }}>
                                 <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                     <p className='font_body'>{(props.details?.height / 10).toLocaleString()} m</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Weight Row */}
-                        < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
+                        {/* < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}> */}
 
-                            {/* Pokemon Weight Name */}
-                            <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                        {/* Pokemon Weight Name */}
+                        {/* <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                 <img src={pokeball} className='icon' alt="" />
                                 <p className='font_body'>Weight</p>
-                            </div>
+                            </div> */}
 
-                            {/* Pokemon Weight Stats */}
-                            <div className='root_column' style={{ 'height': 'auto', 'width': '50%' }}>
+                        {/* Pokemon Weight Stats */}
+                        {/* <div className='root_column' style={{ 'height': 'auto', 'width': '50%' }}>
                                 <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                     <p className='font_body'>{(props.details?.weight / 10).toLocaleString()} kg</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
 
-                    {/* Pokemon Evolution Info */}
+                    {/* // * Pokemon Evolution Info Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'zIndex': '400', 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
-                        {/* Pokemon Sprites Title */}
-                        <div className='root_column' style={{ 'display': `${localState.evolution?.evolutionSelected?.isEvolInfoFetched ? 'flex' : 'none'}`, 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
+                        {/* Pokemon Evolution Title */}
+                        <div className='root_column' style={{ 'display': `${localState.evolution?.evolutionSelected?.isEvolInfoFetched ? 'flex' : 'none'}`, 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'center' }}>
                             <p className='font_head'>Evolution</p>
                         </div>
 
-                        {/* Pokemon Sprites Name */}
-                        <div className='root_column' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
-                            <div className='root_row' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly', 'overflow': 'visible' }}>
+                        {/*  Pokemon Evolution into Grid */}
+                        <div className='grid'>
+                            {/* <div className='root_column_evolution' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly', 'overflow': 'visible' }}> */}
+                            {localState.evolution?.evolutionSelected?.isEvolInfoFetched ?
+                                localState.evolution?.evolutionSelected?.evolInfo?.map((item) => {
+                                    return (
+                                        <>
+                                            <div className='root_column' key={item.evolName} style={{ 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'alignItems': 'center' }}>
+                                                <img src={item.evolArtworkURL} className='artwork' style={{ 'display': `${item ? 'flex' : 'none'}`, 'overflow': 'visible', 'width': '96px' }} alt={props.name} />
+                                                <br />
+                                                {(item.evolName[0].toUpperCase() + item.evolName.substring(1))}
+                                            </div>
+                                        </>
+                                    )
+                                }) : null
+                            }
+                            {/* </div> */}
+                        </div>
+
+                        {/* Pokemon Evolution Flexbox */}
+                        {/* <div className='root_column' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
+                            <div className='root_column_evolution' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly', 'overflow': 'visible' }}>
                                 {localState.evolution?.evolutionSelected?.isEvolInfoFetched ?
                                     localState.evolution?.evolutionSelected?.evolInfo?.map((item) => {
                                         return (
                                             <>
-                                                <div className='root_column' style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'center' }}>
+                                                <div className='root_column' key={item.evolName} style={{ 'overflow': 'auto', 'height': 'auto', 'width': '100%', 'alignItems': 'center' }}>
                                                     <img src={item.evolArtworkURL} className='artwork' style={{ 'display': `${item ? 'flex' : 'none'}`, 'overflow': 'auto', 'width': '96px' }} alt={props.name} />
                                                     <br />
                                                     {(item.evolName[0].toUpperCase() + item.evolName.substring(1))}
@@ -652,7 +611,7 @@ const PokemonDetailsPage = (props) => {
                                     }) : null
                                 }
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
 
@@ -663,10 +622,10 @@ const PokemonDetailsPage = (props) => {
 
 
 
-                {/* Middle Column */}
+                {/* //! Middle Column Section of Pokemon Details Component */}
                 <div id='main_container' className='root_column' style={{ 'zIndex': '3', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
-                    {/* Pokemon Title Section */}
+                    {/* // * Pokemon Title Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Title Name */}
@@ -685,31 +644,27 @@ const PokemonDetailsPage = (props) => {
                         </div>
 
                         {/* Pokemon Weakness */}
-                        <div className='root_column' style={{ 'height': 'auto', 'width': '100%' }}>
+                        {/* <div className='root_column' style={{ 'height': 'auto', 'width': '100%' }}>
                             <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                 <img src={pokeball} className='icon' alt="" /> Weakness
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
 
-                    {/* Pokemon Text Section */}
+                    {/* // * Pokemon Flavor Text Section */}
                     <div id='section_container' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Text Description */}
                         <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '0px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                             <p className='font_body'>
                                 {filterSpeciesFlavorTexEN?.slice(0, 1).map((text) => { return text.flavor_text })}
-                                <br />
-                                {/* It’s nature is to store up electricity.
-                                Forests where nests of Pikachu live
-                                are dangerous, since the trees are so often
-                                struck by lightning */}
                             </p>
                         </div>
                     </div>
 
-                    {/* Pokemon Stats Section */}
+
+                    {/* // * Pokemon Stats Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Stats Title */}
@@ -719,6 +674,34 @@ const PokemonDetailsPage = (props) => {
 
                         {/* Pokemon Stats Table */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+
+                            {/* Header Row */}
+                            < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
+
+                                {/* Pokemon Stats Name */}
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                    <p className='font_body' style={{'fontWeight':'bold'}}>Stats of {props.name[0]?.toUpperCase() + props.name?.substring(1)}</p>
+
+                                </div>
+
+                                {/* Pokemon Base Stats */}
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                    <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                        <p className='span_tag'>
+                                            Base
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Pokemon Effort Stats */}
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                    <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
+                                        <p className='span_tag'>
+                                            Effort
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
                             {/* Exp Row */}
                             < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
@@ -739,7 +722,7 @@ const PokemonDetailsPage = (props) => {
                                 {/* Pokemon Effort Stats */}
                                 <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
-                                        <p className='font_body'>0</p>
+                                        <p className='font_body'>-</p>
                                     </div>
                                 </div>
                             </div>
@@ -770,7 +753,7 @@ const PokemonDetailsPage = (props) => {
                                             {/* Pokemon Effort Stats */}
                                             <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
                                                 <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
-                                                    <p className='font_body'>{list.effort}</p>
+                                                    <p className='font_body'>{list.effort ? list.effort : '-'}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -780,20 +763,15 @@ const PokemonDetailsPage = (props) => {
 
                         </div>
                     </div>
-
-
-
-
-
                 </div>
 
 
 
-                {/* Right Column */}
+                {/* //! Right Column Section of Pokemon Details Component */}
                 <div id='main_container' className='root_column' style={{ 'zIndex': '999', 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
 
-                    {/* Pokemon Abilities Info */}
+                    {/* // * Pokemon Abilities Info Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Abilities Title */}
@@ -819,7 +797,9 @@ const PokemonDetailsPage = (props) => {
                                             onClick={
                                                 (e) => {
                                                     setLocalState({
-                                                        ...localState, 'abilities': {
+                                                        ...localState,
+                                                        'pokemonName': props.name,
+                                                        'abilities': {
                                                             ...localState.abilities,
                                                             'abilitySelectedName': e.currentTarget.getAttribute('data-name'),
                                                             'abilitySelectedDescription': `${e.currentTarget.getAttribute('data-name')}_description`,
@@ -897,7 +877,7 @@ const PokemonDetailsPage = (props) => {
                     </div>
 
 
-                    {/* Pokemon Moves Info */}
+                    {/* // * Pokemon Moves Info Section */}
                     <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Moves Title */}
@@ -922,12 +902,14 @@ const PokemonDetailsPage = (props) => {
                                             onClick={
                                                 (e) => {
                                                     setLocalState({
-                                                        ...localState, 'moves': {
+                                                        ...localState,
+                                                        'pokemonName': props.name,
+                                                        'moves': {
                                                             ...localState.moves,
+                                                            'moveToggle': 1,
                                                             'moveSelectedName': e.currentTarget.getAttribute('data-name'),
                                                             'moveSelectedDescription': `${e.currentTarget.getAttribute('data-name')}_description`,
-                                                            'moveURL': e.currentTarget.getAttribute('data-url'),
-                                                            'moveToggle': 1
+                                                            'moveURL': e.currentTarget.getAttribute('data-url')
                                                         }
                                                     })
                                                 }
@@ -1027,8 +1009,10 @@ const PokemonDetailsPage = (props) => {
 
                 </div>
             </div>
+
+
         </>
     )
 }
 
-export default PokemonDetailsPage
+export default PokemonDetails
