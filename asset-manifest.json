@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/mhazizk.github.io/pokechan/static/css/main.b9ef658d.css",
+    "main.js": "/mhazizk.github.io/pokechan/static/js/main.180cf3f1.js",
+    "static/js/787.1d1e353d.chunk.js": "/mhazizk.github.io/pokechan/static/js/787.1d1e353d.chunk.js",
+    "static/media/pokechan_logo.png": "/mhazizk.github.io/pokechan/static/media/pokechan_logo.a1c51fff4fc5b92cfacd.png",
+    "static/media/pokeball.png": "/mhazizk.github.io/pokechan/static/media/pokeball.1bb5958bf04e9c7bcab1.png",
+    "index.html": "/mhazizk.github.io/pokechan/index.html",
+    "main.b9ef658d.css.map": "/mhazizk.github.io/pokechan/static/css/main.b9ef658d.css.map",
+    "main.180cf3f1.js.map": "/mhazizk.github.io/pokechan/static/js/main.180cf3f1.js.map",
+    "787.1d1e353d.chunk.js.map": "/mhazizk.github.io/pokechan/static/js/787.1d1e353d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b9ef658d.css",
+    "static/js/main.180cf3f1.js"
+  ]
+}
