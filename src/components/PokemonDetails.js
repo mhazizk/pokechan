@@ -472,7 +472,7 @@ const PokemonDetails = (props) => {
                 <div id='main_container' className='root_column' style={{ 'zIndex': '', 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
                     {/* // * Pokemon Image Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'position': 'relative', 'top': '0', 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_cointainer' className='root_column' style={{ 'position': 'relative', 'top': '0', 'zIndex': '300', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Artwork Name */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'center', 'overflow': 'visible' }}>
