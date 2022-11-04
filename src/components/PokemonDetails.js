@@ -465,14 +465,14 @@ const PokemonDetails = (props) => {
         <>
             {/* // ! Root Div of Pokemon Details Component */}
 
-            <div className='root_row' style={{ 'display': `${props.name ? 'flex' : 'none'}`, 'height': 'auto', 'width': '1024px', 'justifyContent': 'space-between', 'alignItems': 'flex-start' }}>
+            <div className='root_row_container' style={{ 'display': `${props.name ? 'flex' : 'none'}`, 'height': 'auto',  'justifyContent': 'space-between', 'alignItems': 'flex-start' }}>
 
 
                 {/* //! Left Column Section of Pokemon Details Component */}
                 <div id='main_container' className='root_column' style={{ 'zIndex': '', 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
                     {/* // * Pokemon Image Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'position': 'sticky', 'top': '0', 'zIndex': '1002', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_cointainer' className='root_column' style={{ 'position': 'relative', 'top': '0', 'zIndex': '400', 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Artwork Name */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'center', 'overflow': 'visible' }}>
@@ -623,10 +623,10 @@ const PokemonDetails = (props) => {
 
 
                 {/* //! Middle Column Section of Pokemon Details Component */}
-                <div id='main_container' className='root_column' style={{ 'zIndex': '3', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
+                <div id='main_container' className='root_column' style={{ 'zIndex': '100', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
 
                     {/* // * Pokemon Title Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_container' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Title Name */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
@@ -665,7 +665,7 @@ const PokemonDetails = (props) => {
 
 
                     {/* // * Pokemon Stats Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_container' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Stats Title */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
@@ -679,13 +679,13 @@ const PokemonDetails = (props) => {
                             < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
 
                                 {/* Pokemon Stats Name */}
-                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'whiteSpace':'nowrap','justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                     <p className='font_body' style={{'fontWeight':'bold'}}>Stats of {props.name[0]?.toUpperCase() + props.name?.substring(1)}</p>
 
                                 </div>
 
                                 {/* Pokemon Base Stats */}
-                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '25%'}}>
                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                         <p className='span_tag'>
                                             Base
@@ -694,7 +694,7 @@ const PokemonDetails = (props) => {
                                 </div>
 
                                 {/* Pokemon Effort Stats */}
-                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '25%' }}>
                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                         <p className='span_tag'>
                                             Effort
@@ -707,20 +707,20 @@ const PokemonDetails = (props) => {
                             < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
 
                                 {/* Pokemon Stats Name */}
-                                <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                <div className='root_row' style={{ 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                     <img src={pokeball} className='icon' alt="" />
                                     <p className='font_body'>Exp</p>
                                 </div>
 
                                 {/* Pokemon Base Stats */}
-                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '25%' }}>
                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                         <p className='font_body'>{props.details?.base_experience}</p>
                                     </div>
                                 </div>
 
                                 {/* Pokemon Effort Stats */}
-                                <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                <div className='root_column' style={{ 'height': 'auto', 'width': '25%' }}>
                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                         <p className='font_body'>-</p>
                                     </div>
@@ -736,7 +736,7 @@ const PokemonDetails = (props) => {
                                         < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
 
                                             {/* Pokemon Stats Name */}
-                                            <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                            <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '50%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                                 <img src={pokeball} className='icon' alt="" />
                                                 <p className='font_body'>
                                                     {(list.stat?.name?.split("-").map((word) => { return word[0].toUpperCase() + word.substring(1) }).join(" "))}
@@ -744,14 +744,14 @@ const PokemonDetails = (props) => {
                                             </div>
 
                                             {/* Pokemon Base Stats */}
-                                            <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                            <div className='root_column' style={{ 'height': 'auto', 'width': '25%' }}>
                                                 <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                                     <p className='font_body'>{list.base_stat}</p>
                                                 </div>
                                             </div>
 
                                             {/* Pokemon Effort Stats */}
-                                            <div className='root_column' style={{ 'height': 'auto', 'width': '30%' }}>
+                                            <div className='root_column' style={{ 'height': 'auto', 'width': '25%' }}>
                                                 <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'center', 'alignItems': 'center' }}>
                                                     <p className='font_body'>{list.effort ? list.effort : '-'}</p>
                                                 </div>
@@ -768,11 +768,11 @@ const PokemonDetails = (props) => {
 
 
                 {/* //! Right Column Section of Pokemon Details Component */}
-                <div id='main_container' className='root_column' style={{ 'zIndex': '999', 'overflow': 'visible', 'height': 'auto', 'width': '100%', 'margin': '8px', 'gap': '16px' }}>
+                <div id='main_container' className='root_column' style={{ 'zIndex': '999', 'overflow': 'visible', 'height': 'auto','width': '95%', 'margin': '8px', 'gap': '16px' }}>
 
 
                     {/* // * Pokemon Abilities Info Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_container' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Abilities Title */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
@@ -781,7 +781,7 @@ const PokemonDetails = (props) => {
 
                         {/* Height Row */}
                         {/* < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}> */}
-                        <div className='root_column' style={{ 'height': 'auto', 'gap': '4px', 'width': '100%' }}>
+                        <div className='root_column' style={{ 'height': 'auto', 'gap': '4px','width': '100%' }}>
 
 
                             {/* Map the abilities list */}
@@ -809,14 +809,14 @@ const PokemonDetails = (props) => {
                                                     })
                                                 }
                                             }
-                                            style={{ 'height': 'auto', 'gap': '4px', 'padding': '4px', 'width': '100%', 'cursor': 'pointer' }}>
+                                            style={{ 'height': 'auto', 'gap': '4px', 'padding': '4px' ,'width': '100%', 'cursor': 'pointer' }}>
 
 
                                             {/* Abilities Row */}
-                                            < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
+                                            < div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between'}}>
 
                                                 {/* Pokemon Abilities Name */}
-                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap','height': 'auto', 'width': 'auto', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                                     <img src={pokeball} className='icon' alt="" />
                                                     <p className='font_body'>
                                                         {(list.ability?.name?.split("-").map((word) => { return word[0].toUpperCase() + word.substring(1) }).join(" "))}
@@ -824,7 +824,7 @@ const PokemonDetails = (props) => {
                                                 </div>
 
                                                 {/* Toggle */}
-                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': 'auto', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                                     <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-end', 'alignItems': 'center' }}>
                                                         <p className='font_body_link' style={{ 'whiteSpace': 'nowrap' }}>•••</p>
                                                     </div>
@@ -878,7 +878,7 @@ const PokemonDetails = (props) => {
 
 
                     {/* // * Pokemon Moves Info Section */}
-                    <div id='section_cointainer' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
+                    <div id='section_container' className='root_column' style={{ 'height': 'auto', 'width': '100%', 'gap': '4px' }}>
 
                         {/* Pokemon Moves Title */}
                         <div className='root_column' style={{ 'height': 'auto', 'width': '100%', 'alignItems': 'flex-start' }}>
@@ -914,7 +914,7 @@ const PokemonDetails = (props) => {
                                                     })
                                                 }
                                             }
-                                            style={{ 'height': 'auto', 'gap': '4px', 'padding': '4px', 'width': '100%' }}>
+                                            style={{ 'height': 'auto', 'gap': '4px', 'padding': '4px 0','width': '100%' }}>
 
                                             {/* Stats Name Row */}
                                             < div
@@ -922,7 +922,7 @@ const PokemonDetails = (props) => {
                                                 style={{ 'cursor': 'pointer', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-between' }}>
 
                                                 {/* Pokemon Stats Name */}
-                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
+                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': 'auto', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
                                                     <img src={pokeball} className='icon' alt="" />
                                                     <p className='font_body'>
                                                         {(list.move?.name?.split("-").map((word) => { return word[0].toUpperCase() + word.substring(1) }).join(" "))}
@@ -930,8 +930,8 @@ const PokemonDetails = (props) => {
                                                 </div>
 
                                                 {/* Toggle */}
-                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-start', 'alignItems': 'center' }}>
-                                                    <div className='root_row' style={{ 'height': 'auto', 'width': '100%', 'gap': '8px', 'justifyContent': 'flex-end', 'alignItems': 'center' }}>
+                                                <div className='root_row' style={{ 'whiteSpace': 'nowrap', 'height': 'auto', 'width': '100%', 'gap': '0', 'justifyContent': 'flex-end', 'alignItems': 'center' }}>
+                                                    <div className='root_row' style={{ 'height': 'auto', 'width': 'auto', 'gap': '0', 'justifyContent': 'flex-end', 'alignItems': 'center' }}>
                                                         <p className='font_body_link' style={{ 'whiteSpace': 'nowrap' }}>•••</p>
                                                     </div>
                                                 </div>
@@ -953,7 +953,7 @@ const PokemonDetails = (props) => {
 
                                                 < div
                                                     className='root_row'
-                                                    style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.05)', 'padding': '4px', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly' }}>
+                                                    style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.05)', 'padding': '4px 0', 'height': 'auto', 'width': '100%', 'justifyContent': 'space-evenly' }}>
                                                     < div
                                                         className='root_column'
                                                         style={{ 'height': 'auto', 'width': 'auto', 'gap': '8px', 'justifyContent': 'center', 'textAlign': 'center', 'alignContent': 'center', 'alignItems': 'center' }}>

@@ -17,11 +17,36 @@
 
 }
 
+.root_column_navbar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: auto;
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    overflow: visible;
+    padding: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    transition: all 0.15s ease-in-out;
+
+}
+
 .grid {
     display: grid;
     /* grid-template-columns: repeat(3, 1fr); */
     grid-template-columns: auto auto auto;
-    grid-gap:auto;
+    grid-gap: auto;
     /* grid-auto-rows: minmax(50px, auto); */
     justify-items: center;
     align-items: center;
@@ -76,6 +101,25 @@
 }
 
 .root_row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    transition: all 0.15s ease-in-out;
+
+}
+
+.root_row_container {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -189,8 +233,14 @@
 
 .red_circle {
     border-radius: 50%;
-    height: 1000px;
-    width: 1000px;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    top: -70vh;
+    left: center;
+    z-index: 1001;
+
+    aspect-ratio: 1;
     content: "";
     font-size: 400px;
     font-weight: bold;
@@ -309,4 +359,37 @@ input[type='search']:hover {
     border-right: none;
     border-bottom: solid 0.2em #365fac;
 
+}
+
+input[type='search']::placeholder {
+    color: #000;
+    opacity: 0.3;
+}
+
+
+@media (max-width:600px) {
+    .root_row_container {
+        flex-direction: column;
+        width: 100vw;
+    }
+
+    .root_column_navbar {
+        position: relative;
+        z-index: 100;
+    }
+
+    .red_circle {
+        z-index: -1;
+    }
+    .artwork {
+        width: 50%;
+    }
+
+}
+
+@media (min-width:720px) {
+    .root_row_container {
+        flex-direction: row;
+        width: 80vw;
+    }
 }
