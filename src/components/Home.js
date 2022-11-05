@@ -5,7 +5,6 @@ import axios from 'axios'
 import PokemonDetailsPage from './PokemonDetails'
 import pokeball from '../assets/pokeball.png'
 
-
 const Home = () => {
 
     // state to save searchQuery
